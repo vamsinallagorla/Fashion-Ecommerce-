@@ -1,13 +1,13 @@
-.products{
-    padding: 30px;
+.featured{
+    padding: 60px 30px;
 }
 
-.products h1{
-    text-align:center;
+.featured h2{
+    text-align: center;
     margin-bottom: 30px;
 }
 
-.product-grid{
+.featured-grid{
     display: flex;
     flex-wrap: wrap;
     gap: 25px;
