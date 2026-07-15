@@ -2,10 +2,9 @@ import "./Register.css";
 
 function Register() {
     return (
-        <div className="register">
-            <h1>Register</h1>
-
-            <form>
+        <div className="register-page">
+            <form className="register-form">
+                <h2>Create Account</h2>
                 <input type="text" placeholder="Enter Name" />
                 <input type="email" placeholder="Enter Email" />
                 <input type="password" placeholder="Enter Password" />

@@ -1,16 +1,35 @@
 import "./Navbar.css";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 function Navbar(){
+    const{ isLoggedIn, logout} = useAuth();
     return (
         <nav className="navbar">
-            <h2>Fashion Boutique</h2>
+            <div className="logo">
+                <Link to="/">Fashion Boutique</Link>
+            </div>
 
-            <ul>
+            <ul className="nav-links">
                 <li><Link to="/">Home</Link></li>
                 <li><Link to="/products">Products</Link></li>
-                <li><Link to="/login">Login</Link></li>
-                <li><Link to="/register">Register</Link></li>
+                {!isLoggedIn && (
+                    <>
+                        <li><Link to="/login">Login</Link></li>
+                        <li><Link to="/register">Register</Link></li>
+                    </>
+                )}
+
+                {isLoggedIn && (
+                    <>
+                        <li><Link to="/cart">Cart</Link></li>
+                        <li>
+                            <button className="logout-btn" onClick={logout}>
+                                Logout
+                            </button>
+                        </li>
+                    </>
+                )}
             </ul>
         </nav>
     );
