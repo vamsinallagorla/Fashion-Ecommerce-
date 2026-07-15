@@ -1,13 +1,14 @@
-import "./Products.css";
-import ProductCard from "../../components/ProductCard/ProductCard";
+import "./FeaturedProducts.css";
+
+import ProductCard from "../ProductCard/ProductCard";
 import products from "../../data/products";
 
-function Products() {
-    return(
-        <div className="products">
-            <h1>Our Products</h1>
-            <div className="product-grid">
-                {products.map((product) => (
+function FeaturedProducts() {
+    return (
+        <section className="featured">
+            <h2>Featured Products</h2>
+            <div className="featured-grid">
+                {products.slice(0, 3).map((product) => (
                     <ProductCard
                         key={product.id}
                         name={product.name}
@@ -17,8 +18,8 @@ function Products() {
                     />
                 ))}
             </div>
-        </div>
+        </section>
     );
 }
 
-export default Products;
+export default FeaturedProducts;
