@@ -17,11 +17,15 @@ const registerUser = async (req, res) => {
         password:hashedPassword,
     });
         await user.save();
-        res. ststus(201).json({message:"User registered Successfully"});
+        res. status(201).json({message:"User registered Successfully"});
 
     } catch (error) {
-        res.status(500).json({message:"Server error"});
-    }
+        console.error("Register Error:", error);
+        res.status(500).json({
+        message: "Server error",
+        error: error.message
+     });
+ }
 };   
 
 //Login User
