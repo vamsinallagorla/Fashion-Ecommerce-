@@ -13,12 +13,13 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* Member 2 Pages */}
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/products" element={<Products />} />
 
-        {/* Your Member 3 Pages */}
+        {/* Member 3 Pages */}
         <Route path="/product/:id" element={<ProductDetailsPage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/summary" element={<OrderSummaryPage />} />
