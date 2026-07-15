@@ -11,7 +11,7 @@ const{
 
 router.post("/",addProduct);
 router.get("/",getAllProducts);
-router.get("/",getProductyById);
+router.get("/",getProductById);
 router.put("/",updateProduct);
 router.delete("/",deleteProduct);
 module.exports=router;
