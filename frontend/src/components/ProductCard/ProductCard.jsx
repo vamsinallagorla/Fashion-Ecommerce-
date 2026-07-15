@@ -1,6 +1,18 @@
 import "./ProductCard.css";
+// import { useAuth } from "../../context/AuthContext";
+// import { useNavigate } from "react-router-dom";
 
 function ProductCard({ name, price, category, image }) {
+    // const { isAuthenticated} = useAuth();
+    // const navigate = useNavigate();
+    // const handleAddToCart = () => {
+    //     if(!isAuthenticated){
+    //         alert("please login first");
+    //         navigate("/login");
+    //         return;
+    //     }
+    //     alert("Product added to cart");
+    // }
     return (
         <div className="card">
             <div className="badge">NEW</div>
@@ -10,7 +22,9 @@ function ProductCard({ name, price, category, image }) {
                 <p>{category}</p>
                 <div className="rating">⭐⭐⭐⭐⭐</div>
                 <h3>$ {price}</h3>
-                <button className="cart-btn">Add to Cart</button>
+                <button className="cart-btn">
+                    Add to Cart
+                </button>
             </div>
         </div>
     );
