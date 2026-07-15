@@ -1,22 +1,29 @@
-import Navbar from "./components/Navbar/Navbar";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import Products from "./pages/Products/Products";
 
-import { Routes, Route } from "react-router-dom";
+import ProductDetailsPage from "./pages/ProductDetailsPage/ProductDetailsPage";
+import CartPage from "./pages/CartPage/CartPage";
+import OrderSummaryPage from "./pages/OrderSummaryPage/OrderSummaryPage";
 
 function App() {
   return (
-    <>
-      <Navbar />
+    <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/products" element={<Products />} />
+
+        {/* Your Member 3 Pages */}
+        <Route path="/product/:id" element={<ProductDetailsPage />} />
+        <Route path="/cart" element={<CartPage />} />
+        <Route path="/summary" element={<OrderSummaryPage />} />
       </Routes>
-    </>
+    </BrowserRouter>
   );
 }
 
