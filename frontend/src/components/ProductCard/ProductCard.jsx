@@ -1,13 +1,20 @@
 import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CartContext } from "../../context/CartContext";
+import { useAuth } from "../../context/AuthContext";
 import "./ProductCard.css";
 
 function ProductCard({ id, name, price, category, image, description }) {
     const { addToCart } = useContext(CartContext);
+    const { isLoggedIn } = useAuth();
     const navigate = useNavigate();
 
     const handleAddToCart = () => {
+        if (!isLoggedIn) {
+            navigate("/login", { state: { from: "/cart" } });
+            return;
+        }
+
         addToCart({ id, name, price, category, image, description });
         navigate("/cart");
     };

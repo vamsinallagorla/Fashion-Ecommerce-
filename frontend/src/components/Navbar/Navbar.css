@@ -24,17 +24,21 @@
 .nav-links{
     display:flex;
     list-style: none;
-    gap: 30px;
+    gap: 20px;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
-.nav-links a{
+.nav-links a,
+.nav-links button{
     color: white;
     text-decoration: none;
     font-size: 18px;
     transition: 0.3s;
 }
 
-.nav-links a:hover{
+.nav-links a:hover,
+.nav-links button:hover{
     color: #f39c12;
 }
 
@@ -50,4 +54,9 @@
 
 .logout-btn:hover{
     background: #e65c2f;
+}
+
+@media(max-width:768px){
+    .navbar{ padding: 16px 20px; flex-direction: column; gap: 12px; }
+    .nav-links{ justify-content: center; }
 }

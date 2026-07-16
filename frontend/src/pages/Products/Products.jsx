@@ -1,10 +1,11 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./Products.css";
 import ProductCard from "../../components/ProductCard/ProductCard";
 import products from "../../data/products";
 
 function Products() {
     const location = useLocation();
+    const navigate = useNavigate();
     const query = new URLSearchParams(location.search);
     const selectedCategory = query.get("category") || "All";
 
@@ -21,6 +22,11 @@ function Products() {
     return(
         <div className="products">
             <h1>Our Products</h1>
+
+            <div className="products-actions">
+                <button type="button" className="ghost-btn" onClick={() => navigate(-1)}>Previous</button>
+                <button type="button" className="ghost-btn" onClick={() => navigate("/")}>Home</button>
+            </div>
 
             <div className="product-filters">
                 {productCategories.map((category) => {

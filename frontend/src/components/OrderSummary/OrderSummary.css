@@ -53,8 +53,51 @@
     font-weight:bold;
 }
 
+.checkout-form{
+    display:grid;
+    gap:16px;
+    margin-top:24px;
+}
+
+.checkout-form h3{
+    font-size:1.1rem;
+    color:#222;
+}
+
+.checkout-field{
+    display:grid;
+    gap:8px;
+}
+
+.checkout-field label{
+    font-weight:600;
+    color:#374151;
+}
+
+.checkout-field input,
+.checkout-field textarea{
+    width:100%;
+    padding:12px 14px;
+    border:1px solid #dce3f2;
+    border-radius:12px;
+    font-size:1rem;
+    resize:vertical;
+}
+
+.checkout-field input:focus,
+.checkout-field textarea:focus{
+    outline:none;
+    border-color:#4f7dff;
+    box-shadow:0 0 0 4px rgba(79, 125, 255, 0.12);
+}
+
+.field-error{
+    color:#da4453;
+    font-size:0.95rem;
+}
+
 .payment-section{
-    margin:30px 0;
+    margin:10px 0 0;
     padding:20px;
     border-radius:16px;
     background:#f7f9ff;
@@ -95,7 +138,7 @@
 .place-order-btn{
     width:100%;
     padding:16px;
-    margin-top:25px;
+    margin-top:10px;
     border:none;
     background:#000;
     color:white;

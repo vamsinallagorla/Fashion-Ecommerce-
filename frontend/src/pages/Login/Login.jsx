@@ -1,32 +1,58 @@
 import "./Login.css";
 import { useAuth } from "../../context/AuthContext";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useState } from "react";
 
 function Login() {
     const { login } = useAuth();
     const navigate = useNavigate();
-    const [email, setEmail] = useState("");
+    const location = useLocation();
+    const [identifier, setIdentifier] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
-        login();
+
+        if (!identifier.trim() || !password.trim()) {
+            setError("Please enter your email or WhatsApp and password.");
+            return;
+        }
+
+        const result = await login(identifier, password);
+        if (!result.success) {
+            setError(result.message);
+            return;
+        }
+
+        setError("");
+        const redirectTo = location.state?.from || "/";
+        navigate(redirectTo);
+    };
+
+    const handleSkip = () => {
         navigate("/");
     };
+
     return (
         <div className="login-page">
             <div className="login-card">
+                <div className="page-top">
+                    <button type="button" className="skip-btn" onClick={handleSkip}>
+                        Skip
+                    </button>
+                </div>
                 <form className="login-form" onSubmit={handleLogin}>
                     <div className="form-header">
                         <h2>Login</h2>
                         <p>Sign in to access your cart and checkout faster.</p>
                     </div>
+                    {error && <p className="error-text">{error}</p>}
                     <input
-                        type="email"
-                        placeholder="Enter Email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        type="text"
+                        placeholder="Email or WhatsApp"
+                        value={identifier}
+                        onChange={(e) => setIdentifier(e.target.value)}
                         required
                     />
                     <input
@@ -38,7 +64,7 @@ function Login() {
                     />
                     <button type="submit">Login</button>
                     <p className="small-text">
-                        Don’t have an account? <Link to="/register">Register</Link>
+                        New here? <Link to="/register">Create an account with email or WhatsApp</Link>
                     </p>
                 </form>
             </div>

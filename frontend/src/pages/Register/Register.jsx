@@ -1,24 +1,38 @@
 import "./Register.css";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 function Register() {
+    const { register } = useAuth();
     const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
+    const [contact, setContact] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState("");
     const navigate = useNavigate();
 
-    const handleRegister = (e) => {
+    const handleRegister = async (e) => {
         e.preventDefault();
+
+        if (!name.trim() || !contact.trim() || !password.trim() || !confirmPassword.trim()) {
+            setError("Please fill in all fields.");
+            return;
+        }
+
         if (password !== confirmPassword) {
             setError("Passwords do not match. Please try again.");
             return;
         }
 
+        const result = await register(name, contact, password);
+        if (!result.success) {
+            setError(result.message);
+            return;
+        }
+
         setError("");
-        navigate("/login");
+        navigate("/");
     };
 
     return (
@@ -36,10 +50,10 @@ function Register() {
                         required
                     />
                     <input
-                        type="email"
-                        placeholder="Enter Email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        type="text"
+                        placeholder="Email or WhatsApp"
+                        value={contact}
+                        onChange={(e) => setContact(e.target.value)}
                         required
                     />
                     <input

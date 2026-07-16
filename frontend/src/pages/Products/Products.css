@@ -16,6 +16,24 @@
     justify-content: center;
 }
 
+.products-actions{
+    display:flex;
+    justify-content:center;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-bottom:20px;
+}
+
+.ghost-btn{
+    border:1px solid #d1d5db;
+    background:#fff;
+    color:#111827;
+    padding:10px 16px;
+    border-radius:999px;
+    cursor:pointer;
+    font-weight:600;
+}
+
 .product-filters{
     display:flex;
     gap:12px;
