@@ -71,3 +71,25 @@
 .cart-btn:hover{
     background: #ff6b35;
 }
+.button-group{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.order-btn{
+    width: 100%;
+    padding: 12px;
+    background-color: #ff6b35;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.order-btn:hover{
+    background-color: #e85a2b;
+}

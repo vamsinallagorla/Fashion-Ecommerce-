@@ -1,8 +1,10 @@
 const Order = require("../models/Order");
 
+
 // Create Order
 const createOrder = async (req, res) => {
     try {
+        console.log("Request Body:", req.body);
 
         const {
             name,

@@ -115,19 +115,17 @@ const OrderDetailsPage = () => {
 
           <h2>
             Total Amount : ₹ {order.totalAmount}
-          </h2>
-
-          <button
+          </h2><br></br>
+         
+        </div><br></br>
+        <button            
             className="continue-btn"
             onClick={() => navigate("/")}
           >
             Continue Shopping
           </button>
-
-        </div>
-
       </div>
-
+      
       <Footer />
     </>
   );

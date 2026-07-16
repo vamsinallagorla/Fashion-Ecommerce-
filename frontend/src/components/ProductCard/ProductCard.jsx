@@ -18,6 +18,23 @@ function ProductCard({ id, name, price, category, image, description }) {
         addToCart({ id, name, price, category, image, description });
         navigate("/cart");
     };
+    const handleOrderNow = () => {
+    if (!isLoggedIn) {
+        navigate("/login", { state: { from: "/summary" } });
+        return;
+    }
+
+    addToCart({
+        id,
+        name,
+        price,
+        category,
+        image,
+        description,
+    });
+
+    navigate("/summary");
+};
 
     return (
         <div className="card">
@@ -32,9 +49,26 @@ function ProductCard({ id, name, price, category, image, description }) {
                 <p>{category}</p>
                 <div className="rating">⭐⭐⭐⭐⭐</div>
                 <h3>₹ {price}</h3>
-                <button className="cart-btn" onClick={handleAddToCart}>
-                    Add to Cart
-                </button>
+                <div className="button-group">
+                    <div className="button-group">
+
+                        <button
+                            className="order-btn"
+                            onClick={handleOrderNow}
+                        >
+                            Order Now
+                        </button>
+
+                        <button
+                            className="cart-btn"
+                            onClick={handleAddToCart}
+                        >
+                            Add to Cart
+                        </button>
+
+</div>
+
+</div>
             </div>
         </div>
     );
