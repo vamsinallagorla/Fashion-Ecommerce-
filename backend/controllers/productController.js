@@ -36,6 +36,30 @@ const getAllProducts=async (req,res)=>{
         res.status(500).json({message:"Server Error"});
     }
 };
+//get related products
+const getRelatedProducts = async (req, res) => {
+    try {
+        const product = await Product.findById(req.params.id);
+
+        if (!product) {
+            return res.status(404).json({
+                message: "Product not found"
+            });
+        }
+
+        const relatedProducts = await Product.find({
+            category: product.category,
+            _id: { $ne: product._id }
+        });
+
+        res.status(200).json(relatedProducts);
+
+    } catch (error) {
+        res.status(500).json({
+            message: "Server Error"
+        });
+    }
+};
 
 //Get Product By Id
 const getProductById=async(req,res)=>{
@@ -83,6 +107,7 @@ const deleteProduct=async(req,res)=>{
 module.exports={
     addProduct,
     getAllProducts,
+    getRelatedProducts,
     getProductById,
     updateProduct,
     deleteProduct

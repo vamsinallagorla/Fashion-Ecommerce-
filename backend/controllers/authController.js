@@ -30,7 +30,11 @@ const registerUser = async (req, res) => {
             await user.save();
 
             const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET || "fashion-secret", { expiresIn: "1d" });
-            return res.status(201).json({ message: "User registered successfully", token, user: { id: user._id, name: user.name, email: user.email } });
+            return res.status(201).json({
+                message: "User registered successfully",
+                token,
+                user: { id: user._id, name: user.name, email: user.email },
+            });
         }
 
         const store = getUserStore();
@@ -44,7 +48,11 @@ const registerUser = async (req, res) => {
         store.push(user);
 
         const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET || "fashion-secret", { expiresIn: "1d" });
-        res.status(201).json({ message: "User registered successfully", token, user: { id: user.id, name: user.name, email: user.email } });
+        return res.status(201).json({
+            message: "User registered successfully",
+            token,
+            user: { id: user.id, name: user.name, email: user.email },
+        });
     } catch (error) {
         console.error("Register Error:", error);
         res.status(500).json({ message: "Server error", error: error.message });
@@ -67,7 +75,11 @@ const loginUser = async (req, res) => {
             }
 
             const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET || "fashion-secret", { expiresIn: "1d" });
-            return res.status(200).json({ message: "Login successful", token, user: { id: user._id, name: user.name, email: user.email } });
+            return res.status(200).json({
+                message: "Login successful",
+                token,
+                user: { id: user._id, name: user.name, email: user.email },
+            });
         }
 
         const store = getUserStore();
@@ -82,11 +94,8 @@ const loginUser = async (req, res) => {
         }
 
         const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET || "fashion-secret", { expiresIn: "1d" });
-        res.status(200).json({ message: "Login successful", token, user: { id: user.id, name: user.name, email: user.email } });
-    } catch (error) {
-        console.error("Login Error:", error);
-        res.status(500).json({ message: "Server error", error: error.message });
-    }
-};
-
-module.exports = { registerUser, loginUser };
+        return res.status(200).json({
+            message: "Login successful",
+            token,
+            user: { id: user.id, name: user.name, email: user.email },
+        });

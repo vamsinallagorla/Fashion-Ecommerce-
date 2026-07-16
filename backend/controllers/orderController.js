@@ -34,16 +34,23 @@ const sendOrderEmail = async (order) => {
 
 const createOrder = async (req, res) => {
     try {
-        const { user, customer, items, totalPrice, paymentMethod } = req.body;
+        const { user, customer, items, totalPrice, paymentMethod, name, mobile, address } = req.body;
+
+        const normalizedCustomer = customer || {
+            name: name || "",
+            mobile: mobile || "",
+            address: address || "",
+        };
 
         const order = {
             id: Date.now().toString(),
             user,
-            customer,
-            items,
+            customer: normalizedCustomer,
+            items: items || [],
             totalPrice,
             paymentMethod,
             placedAt: new Date().toISOString(),
+            status: "success",
         };
 
         const store = getOrderStore();
