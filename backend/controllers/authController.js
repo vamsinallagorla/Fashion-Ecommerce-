@@ -105,4 +105,11 @@ const loginUser = async (req, res) => {
     }
 };
 
+<<<<<<< HEAD
 module.exports = { registerUser, loginUser };
+=======
+module.exports = {
+    registerUser,
+    loginUser,
+};
+>>>>>>> 2613d16adc06c5f3c52dfef23098d398f815754c

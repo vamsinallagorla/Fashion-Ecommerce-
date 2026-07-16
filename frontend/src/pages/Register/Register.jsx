@@ -1,38 +1,48 @@
 import "./Register.css";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
 
 function Register() {
-    const { register } = useAuth();
     const [name, setName] = useState("");
-    const [contact, setContact] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState("");
+
     const navigate = useNavigate();
 
     const handleRegister = async (e) => {
         e.preventDefault();
 
-        if (!name.trim() || !contact.trim() || !password.trim() || !confirmPassword.trim()) {
-            setError("Please fill in all fields.");
-            return;
-        }
-
         if (password !== confirmPassword) {
-            setError("Passwords do not match. Please try again.");
+            setError("Passwords do not match");
             return;
         }
 
-        const result = await register(name, contact, password);
-        if (!result.success) {
-            setError(result.message);
-            return;
-        }
+        try {
+            const response = await fetch("http://localhost:5000/api/auth/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    name,
+                    email,
+                    password,
+                }),
+            });
 
-        setError("");
-        navigate("/");
+            const data = await response.json();
+
+            if (response.ok) {
+                alert("Registration Successful");
+                navigate("/login");
+            } else {
+                setError(data.message);
+            }
+        } catch (err) {
+            setError("Server Error");
+        }
     };
 
     return (
@@ -40,8 +50,13 @@ function Register() {
             <div className="register-card">
                 <form className="register-form" onSubmit={handleRegister}>
                     <h2>Create Account</h2>
-                    <p className="form-subtitle">Join now to save your cart and checkout faster.</p>
+
+                    <p className="form-subtitle">
+                        Join now to save your cart and checkout faster.
+                    </p>
+
                     {error && <p className="error-text">{error}</p>}
+
                     <input
                         type="text"
                         placeholder="Enter Name"
@@ -49,13 +64,15 @@ function Register() {
                         onChange={(e) => setName(e.target.value)}
                         required
                     />
+
                     <input
-                        type="text"
-                        placeholder="Email or WhatsApp"
-                        value={contact}
-                        onChange={(e) => setContact(e.target.value)}
+                        type="email"
+                        placeholder="Enter Email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         required
                     />
+
                     <input
                         type="password"
                         placeholder="Enter Password"
@@ -63,6 +80,7 @@ function Register() {
                         onChange={(e) => setPassword(e.target.value)}
                         required
                     />
+
                     <input
                         type="password"
                         placeholder="Confirm Password"
@@ -70,7 +88,9 @@ function Register() {
                         onChange={(e) => setConfirmPassword(e.target.value)}
                         required
                     />
+
                     <button type="submit">Register</button>
+
                     <p className="small-text">
                         Already have an account? <Link to="/login">Login</Link>
                     </p>
