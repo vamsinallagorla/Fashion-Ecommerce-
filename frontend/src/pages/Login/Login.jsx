@@ -15,7 +15,7 @@ function Login() {
         e.preventDefault();
 
         if (!identifier.trim() || !password.trim()) {
-            setError("Please enter your email or WhatsApp and password.");
+            setError("Please enter your email  and password.");
             return;
         }
 
@@ -50,7 +50,7 @@ function Login() {
                     {error && <p className="error-text">{error}</p>}
                     <input
                         type="text"
-                        placeholder="Email or WhatsApp"
+                        placeholder="Email"
                         value={identifier}
                         onChange={(e) => setIdentifier(e.target.value)}
                         required
@@ -64,7 +64,7 @@ function Login() {
                     />
                     <button type="submit">Login</button>
                     <p className="small-text">
-                        New here? <Link to="/register">Create an account with email or WhatsApp</Link>
+                        New here? <Link to="/register">Create an account with email </Link>
                     </p>
                 </form>
             </div>
