@@ -25,6 +25,7 @@ const registerUser = async (req, res) => {
         message: "Server error",
         error: error.message
      });
+     
  }
 };   
 
