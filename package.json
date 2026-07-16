@@ -1,4 +1,9 @@
 {
+  "name": "fashion-ecommerce",
+  "private": true,
+  "scripts": {
+    "start": "node start.js"
+  },
   "dependencies": {
     "axios": "^1.18.1",
     "react-router-dom": "^7.18.1"

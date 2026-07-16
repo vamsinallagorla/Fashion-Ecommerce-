@@ -1,10 +1,12 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { CartContext } from "../../context/CartContext";
+import { useAuth } from "../../context/AuthContext";
 import "./ProductDetails.css";
 
 const ProductDetails = ({ product }) => {
   const { addToCart } = useContext(CartContext);
+  const { isLoggedIn } = useAuth();
   const navigate = useNavigate();
 
   if (!product) {
@@ -12,6 +14,11 @@ const ProductDetails = ({ product }) => {
   }
 
   const handleAddToCart = () => {
+    if (!isLoggedIn) {
+      navigate("/login", { state: { from: "/cart" } });
+      return;
+    }
+
     addToCart(product);
     navigate("/cart");
   };

@@ -1,136 +1,125 @@
-const Order = require("../models/Order");
+const nodemailer = require("nodemailer");
 
-//Create Order
+const getOrderStore = () => {
+    if (!global.inMemoryOrders) {
+        global.inMemoryOrders = [];
+    }
+    return global.inMemoryOrders;
+};
+
+const sendOrderEmail = async (order) => {
+    if (!process.env.EMAIL_HOST || !process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+        return { sent: false, reason: "SMTP not configured" };
+    }
+
+    const transporter = nodemailer.createTransport({
+        host: process.env.EMAIL_HOST,
+        port: Number(process.env.EMAIL_PORT || 587),
+        secure: false,
+        auth: {
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASS,
+        },
+    });
+
+    await transporter.sendMail({
+        from: process.env.EMAIL_FROM || process.env.EMAIL_USER,
+        to: order.user?.identifier || order.user?.email || "customer@example.com",
+        subject: "Fashion Boutique Order Confirmation",
+        text: `Hi ${order.user?.name || "there"},\n\nYour order has been placed successfully.\n\nCustomer: ${order.customer.name}\nMobile: ${order.customer.mobile}\nAddress: ${order.customer.address}\n\nItems: ${order.items.map((item) => `${item.name} x ${item.quantity}`).join(", ")}\nTotal: ₹${order.totalPrice}\nPayment: ${order.paymentMethod}`,
+    });
+
+    return { sent: true };
+};
+
 const createOrder = async (req, res) => {
     try {
+        const { user, customer, items, totalPrice, paymentMethod, name, mobile, address } = req.body;
 
-        const {
-            name,
-            mobile,
-            address,
+        const normalizedCustomer = customer || {
+            name: name || "",
+            mobile: mobile || "",
+            address: address || "",
+        };
+
+        const order = {
+            id: Date.now().toString(),
             user,
-            products,
-            totalAmount
-        } = req.body;
+            customer: normalizedCustomer,
+            items: items || [],
+            totalPrice,
+            paymentMethod,
+            placedAt: new Date().toISOString(),
+            status: "success",
+        };
 
-        const order = new Order({
-            name,
-            mobile,
-            address,
-            user,
-            products,
-            totalAmount
-        });
+        const store = getOrderStore();
+        store.push(order);
 
-        await order.save();
+        const emailResult = await sendOrderEmail(order);
 
         res.status(201).json({
-            message: "Order Placed Successfully",
-            order
+            message: "Order placed successfully",
+            order,
+            emailSent: emailResult.sent,
         });
-
     } catch (error) {
-
-        res.status(500).json({
-            message: "Server Error"
-        });
-
+        res.status(500).json({ message: "Server Error", error: error.message });
     }
 };
 
-//Get All Orders
 const getOrders = async (req, res) => {
     try {
-
-        const orders = await Order.find()
-            .populate("user")
-            .populate("products.product");
-
-        res.status(200).json(orders);
-
+        res.status(200).json(getOrderStore());
     } catch (error) {
-
-        res.status(500).json({
-            message: "Server Error"
-        });
-
+        res.status(500).json({ message: "Server Error" });
     }
 };
 
-//Get OrderById
 const getOrderById = async (req, res) => {
     try {
-
-        const order = await Order.findById(req.params.id)
-            .populate("user")
-            .populate("products.product");
-
+        const order = getOrderStore().find((item) => item.id === req.params.id);
         if (!order) {
-            return res.status(404).json({
-                message: "Order not found"
-            });
+            return res.status(404).json({ message: "Order not found" });
         }
-
         res.status(200).json(order);
-
     } catch (error) {
-
-        res.status(500).json({
-            message: "Server Error"
-        });
-
+        res.status(500).json({ message: "Server Error" });
     }
 };
 
-//Update Order Status
 const updateOrderStatus = async (req, res) => {
     try {
-
-        const order = await Order.findByIdAndUpdate(
-            req.params.id,
-            { status: req.body.status },
-            { new: true }
-        );
-
+        const store = getOrderStore();
+        const order = store.find((item) => item.id === req.params.id);
         if (!order) {
-            return res.status(404).json({
-                message: "Order not found"
-            });
+            return res.status(404).json({ message: "Order not found" });
         }
-
+        order.status = req.body.status;
         res.status(200).json(order);
-
     } catch (error) {
-
-        res.status(500).json({
-            message: "Server Error"
-        });
-
+        res.status(500).json({ message: "Server Error" });
     }
 };
 
-//Delete Order
 const deleteOrder = async (req, res) => {
     try {
-
-        await Order.findByIdAndDelete(req.params.id);
-
-        res.status(200).json({
-            message: "Order Deleted Successfully"
-        });
-
+        const store = getOrderStore();
+        const index = store.findIndex((item) => item.id === req.params.id);
+        if (index === -1) {
+            return res.status(404).json({ message: "Order not found" });
+        }
+        store.splice(index, 1);
+        res.status(200).json({ message: "Order deleted successfully" });
     } catch (error) {
-
-        res.status(500).json({
-            message: "Server Error"
-        });
-
+        res.status(500).json({ message: "Server Error" });
     }
 };
-module.exports={
+
+module.exports = {
     createOrder,
     getOrders,
     getOrderById,
     updateOrderStatus,
-    deleteOrder
-}
+    deleteOrder,
+};
