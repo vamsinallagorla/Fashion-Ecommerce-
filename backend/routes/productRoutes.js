@@ -11,6 +11,7 @@ const{
 
 router.post("/",addProduct);
 router.get("/",getAllProducts);
+router.get("/related/:id", getRelatedProducts);
 router.get("/",getProductById);
 router.put("/",updateProduct);
 router.delete("/",deleteProduct);

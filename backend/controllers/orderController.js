@@ -5,12 +5,18 @@ const createOrder = async (req, res) => {
     try {
 
         const {
+            name,
+            mobile,
+            address,
             user,
             products,
             totalAmount
         } = req.body;
 
         const order = new Order({
+            name,
+            mobile,
+            address,
             user,
             products,
             totalAmount
