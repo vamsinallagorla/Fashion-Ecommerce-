@@ -102,11 +102,8 @@ const OrderSummary = () => {
 
       clearCart();
 
-      navigate("/orders", {
-        state: {
-          order: response.order,
-  },
-});
+      navigate("/orders-details" );
+      
     } catch (error) {
       alert(error.response?.data?.message || "Unable to place order right now.");
     }

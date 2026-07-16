@@ -9,118 +9,125 @@ const OrderDetailsPage = () => {
   const [order, setOrder] = useState(null);
 
   useEffect(() => {
-    try {
-      const savedOrder = window.localStorage.getItem("fashion-latest-order");
-      if (savedOrder) {
-        setOrder(JSON.parse(savedOrder));
-      }
-    } catch {
-      setOrder(null);
+    const savedOrder = localStorage.getItem("fashion-latest-order");
+
+    if (savedOrder) {
+      setOrder(JSON.parse(savedOrder));
     }
   }, []);
+
+  if (!order) {
+    return (
+      <>
+        <Navbar />
+
+        <div className="order-details-page">
+          <h2>No Order Found</h2>
+
+          <button
+            className="continue-btn"
+            onClick={() => navigate("/")}
+          >
+            Continue Shopping
+          </button>
+        </div>
+
+        <Footer />
+      </>
+    );
+  }
 
   return (
     <>
       <Navbar />
-      <main className="order-details-page">
+
+      <div className="order-details-page">
+
         <div className="order-details-card">
-          <div className="order-details-header">
-            <div>
-              <p className="eyebrow">Order confirmed</p>
-              <h1>Thank you for your order</h1>
-            </div>
-            <div className="order-details-actions">
-              <button type="button" className="ghost-btn" onClick={() => navigate("/orders")}>View Orders</button>
-              <button type="button" className="ghost-btn" onClick={() => navigate("/")}>Home</button>
-            </div>
-          </div>
 
-          {!order ? (
-            <div className="order-empty-state">
-              <h2>Your order details will appear here.</h2>
-              <p>Place an order to see a summary and shipment details.</p>
-            </div>
-          ) : (
-            <>
-                <div className="success-box">
+          <h1 className="success-title">
+            ✅ Order Placed Successfully
+          </h1>
 
-                  <h1>✅ Order Placed Successfully</h1>
+          <hr />
 
+          <p>
+            <strong>Order ID :</strong>{" "}
+            {order._id || order.id}
+          </p>
+
+          <p>
+            <strong>Customer Name :</strong>{" "}
+            {order.name}
+          </p>
+
+          <p>
+            <strong>Mobile Number :</strong>{" "}
+            {order.mobile}
+          </p>
+
+          <p>
+            <strong>Delivery Address :</strong>{" "}
+            {order.address}
+          </p>
+
+          <p>
+            <strong>Order Status :</strong>{" "}
+            {order.status || "Pending"}
+          </p>
+
+          <hr />
+
+          <h2>Products Ordered</h2>
+
+          {order.products &&
+            order.products.map((item, index) => (
+              <div
+                key={index}
+                className="product-item"
+              >
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  width="80"
+                  height="80"
+                />
+
+                <div>
+                  <h3>{item.name}</h3>
+
+                  <p>
+                    Category : {item.category}
+                  </p>
+
+                  <p>
+                    Price : ₹ {item.price}
+                  </p>
+
+                  <p>
+                    Quantity : {item.quantity}
+                  </p>
                 </div>
-              <div className="details-grid">
-                <section className="details-section">
-                    <h2>Customer Details</h2>
-
-                    <p><strong>Order ID :</strong> {order._id || order.id}</p>
-
-                    <p><strong>Customer Name :</strong> {order.name}</p>
-
-                    <p><strong>Mobile Number :</strong> {order.mobile}</p>
-
-                    <p><strong>Delivery Address :</strong> {order.address}</p>
-
-                    <p><strong>Order Status :</strong> {order.status}</p>
-                  </section>
-
-                <section className="details-section">
-
-                    <h2>Order Summary</h2>
-
-                    <p>
-                      <strong>Total Amount :</strong>
-                      ₹ {order.totalAmount}
-                    </p>
-
-                    <p>
-                      <strong>Date :</strong>
-                      {new Date(order.createdAt || order.placedAt).toLocaleString()}
-                    </p>
-
-                  </section>
               </div>
+            ))}
 
-              <section className="details-section">
-                <h2>Items</h2>
-                <ul className="item-list">
-                  {(order.products || []).map((item, index) => (
-                    <li key={index}>
+          <hr />
 
-                      <img
-                        src={item.image}
-                        alt={item.name}
-                        width="70"
-                        height="70"
-                      />
-
-                      <div>
-
-                        <h4>{item.name}</h4>
-
-                        <p>Category : {item.category}</p>
-
-                        <p>Price : ₹ {item.price}</p>
-
-                        <p>Quantity : {item.quantity}</p>
-
-                      </div>
-
-                    </li>
-                  ))}
-                </ul>
-              </section>
-            </>
-          )}
-        </div>
-        <div className="continue-btn">
+          <h2>
+            Total Amount : ₹ {order.totalAmount}
+          </h2>
 
           <button
+            className="continue-btn"
             onClick={() => navigate("/")}
           >
             Continue Shopping
           </button>
 
         </div>
-      </main>
+
+      </div>
+
       <Footer />
     </>
   );

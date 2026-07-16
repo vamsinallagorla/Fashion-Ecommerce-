@@ -13,6 +13,7 @@ function Navbar(){
             <ul className="nav-links">
                 <li><Link to="/">Home</Link></li>
                 <li><Link to="/products">Products</Link></li>
+                <Link to="/orders" className="nav-link">Orders</Link>
                 <li><Link to="/cart">Cart</Link></li>
                 {isLoggedIn && (
                     <li><Link to="/orders">My Orders</Link></li>
