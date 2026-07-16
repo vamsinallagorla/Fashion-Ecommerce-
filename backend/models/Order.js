@@ -24,16 +24,18 @@ const orderSchema = new mongoose.Schema({
 
     products: [
         {
-            product: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "Product",
-                required: true
-            },
-            quantity: {
-                type: Number,
-                required: true
-            }
-        }
+            id: Number,
+
+            name: String,
+
+            price: Number,
+
+            category: String,
+
+            image: String,
+
+            quantity: Number,
+        },
     ],
 
     totalAmount: {

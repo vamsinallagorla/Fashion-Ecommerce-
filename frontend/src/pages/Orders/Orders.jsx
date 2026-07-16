@@ -6,84 +6,134 @@ import { useAuth } from "../../context/AuthContext";
 import "./Orders.css";
 
 function Orders() {
-  const { isLoggedIn, currentUser } = useAuth();
+  const { isLoggedIn } = useAuth();
   const navigate = useNavigate();
+
   const [orders, setOrders] = useState([]);
   const [error, setError] = useState("");
 
   useEffect(() => {
     if (!isLoggedIn) {
-      navigate("/login", { state: { from: "/orders", error: "Please log in to view your orders." } });
+      navigate("/login");
       return;
     }
 
-    try {
-      const storedOrders = JSON.parse(window.localStorage.getItem("fashion-orders") || "[]");
-      const myOrders = storedOrders.filter((order) => {
-        const sameUser = order.user?.email === currentUser?.email
-          || order.user?.id === currentUser?.id
-          || order.user?.identifier === currentUser?.identifier
-          || order.user?.email === currentUser?.identifier;
-        return (order.status || "success") === "success" && sameUser;
-      });
-      setOrders(myOrders);
-    } catch {
-      setError("Unable to load your orders right now.");
-    }
-  }, [currentUser, isLoggedIn, navigate]);
+    const fetchOrders = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/api/orders");
+
+        const data = await response.json();
+
+        if (response.ok) {
+          setOrders(data);
+        } else {
+          setError("Unable to load orders");
+        }
+      } catch (err) {
+        setError("Server Error");
+      }
+    };
+
+    fetchOrders();
+  }, [isLoggedIn, navigate]);
 
   return (
     <>
       <Navbar />
+
       <main className="orders-page">
         <div className="orders-card">
+
           <div className="orders-header">
-            <div>
-              <p className="eyebrow">Order history</p>
-              <h1>My Orders</h1>
-            </div>
-            <div className="orders-actions">
-              <button type="button" className="ghost-btn" onClick={() => navigate(-1)}>Previous</button>
-              <button type="button" className="ghost-btn" onClick={() => navigate("/")}>Home</button>
-            </div>
+            <h1>My Orders</h1>
+
+            <button
+              className="ghost-btn"
+              onClick={() => navigate("/")}
+            >
+              Home
+            </button>
           </div>
 
-          {error ? (
-            <p className="orders-error">{error}</p>
-          ) : orders.length === 0 ? (
-            <div className="empty-orders">
-              <h2>You have no orders yet.</h2>
-              <p>Successful orders will appear here once you place an order.</p>
-            </div>
+          {error && <p>{error}</p>}
+
+          {orders.length === 0 ? (
+            <h2>No Orders Found</h2>
           ) : (
-            <div className="orders-table-wrap">
-              <table className="orders-table">
-                <thead>
-                  <tr>
-                    <th>Product</th>
-                    <th>Price</th>
-                    <th>Date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {orders.map((order, index) => (
-                    <tr key={order.id || `${order.placedAt || "order"}-${index}`}>
-                      <td>
-                        <div className="product-cell">
-                          <strong>{(order.items || []).map((item) => `${item.name} x ${item.quantity}`).join(", ") || "-"}</strong>
-                          <span>{order.customer?.address || "Shipping address available"}</span>
-                        </div>
-                      </td>
-                      <td>₹ {order.totalPrice || 0}</td>
-                      <td>{order.placedAt ? new Date(order.placedAt).toLocaleDateString() : "-"}</td>
-                    </tr>
+            <div className="orders-list">
+
+              {orders.map((order) => (
+                <div className="order-box" key={order._id}>
+
+                  <h2>Order Details</h2>
+
+                  <p>
+                    <strong>Name :</strong> {order.name}
+                  </p>
+
+                  <p>
+                    <strong>Mobile :</strong> {order.mobile}
+                  </p>
+
+                  <p>
+                    <strong>Address :</strong> {order.address}
+                  </p>
+
+                  <p>
+                    <strong>Status :</strong> {order.status}
+                  </p>
+
+                  <p>
+                    <strong>Total Amount :</strong> ₹ {order.totalAmount}
+                  </p>
+
+                  <p>
+                    <strong>Date :</strong>{" "}
+                    {new Date(order.createdAt).toLocaleDateString()}
+                  </p>
+
+                  <hr />
+
+                  <h3>Products</h3>
+
+                  {order.products.map((item, index) => (
+                    <div
+                      key={index}
+                      className="product-card"
+                    >
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        width="80"
+                        height="80"
+                      />
+
+                      <div>
+                        <h4>{item.name}</h4>
+
+                        <p>
+                          Category : {item.category}
+                        </p>
+
+                        <p>
+                          Price : ₹ {item.price}
+                        </p>
+
+                        <p>
+                          Quantity : {item.quantity}
+                        </p>
+                      </div>
+                    </div>
                   ))}
-                </tbody>
-              </table>
+
+                </div>
+              ))}
+
             </div>
           )}
         </div>
       </main>
+
       <Footer />
     </>
   );

@@ -61,20 +61,22 @@ const OrderSummary = () => {
     }
 
     const orderPayload = {
-      customer: {
-        name: customerInfo.name.trim(),
-        mobile: customerInfo.mobile.trim(),
-        address: customerInfo.address.trim(),
-      },
-      items: cartItems,
-      totalPrice,
-      paymentMethod,
-      user: {
-        id: currentUser?.id,
-        name: currentUser?.name,
-        email: currentUser?.email || currentUser?.identifier,
-        identifier: currentUser?.identifier || currentUser?.email,
-      },
+      name: customerInfo.name.trim(),
+      mobile: customerInfo.mobile.trim(),
+      address: customerInfo.address.trim(),
+
+      user: currentUser?.id,
+
+      products: cartItems.map(item => ({
+    id: item.id,
+    name: item.name,
+    price: item.price,
+    category: item.category,
+    image: item.image,
+    quantity: item.quantity
+})),
+
+      totalAmount: totalPrice,
     };
 
     try {
@@ -96,17 +98,15 @@ const OrderSummary = () => {
         // ignore storage issues and continue to the confirmation screen
       }
 
-      if (!response.emailSent && currentUser?.email) {
-        const mailtoLink = `mailto:${currentUser.email}?subject=${encodeURIComponent("Fashion Boutique Order Confirmation")}&body=${encodeURIComponent(`Hi ${currentUser.name || "there"},\n\nYour order has been placed successfully.\n\nCustomer: ${customerInfo.name.trim()}\nMobile: ${customerInfo.mobile.trim()}\nAddress: ${customerInfo.address.trim()}\n\nItems: ${cartItems.map((item) => `${item.name} x ${item.quantity}`).join(", ")}\nTotal: ₹${totalPrice}\nPayment: ${paymentMethod === "card" ? "Credit/Debit Card" : paymentMethod === "upi" ? "UPI" : "Cash on Delivery"}`)}`;
-        window.location.href = mailtoLink;
-      }
-
-      const whatsappMessage = encodeURIComponent(`Hi! I placed an order at Fashion Boutique.\nCustomer: ${customerInfo.name.trim()}\nMobile: ${customerInfo.mobile.trim()}\nAddress: ${customerInfo.address.trim()}\nItems: ${cartItems.map((item) => `${item.name} x ${item.quantity}`).join(", ")}\nTotal: ₹${totalPrice}`);
-      const whatsappUrl = `https://wa.me/${customerInfo.mobile.trim()}?text=${whatsappMessage}`;
-      window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+      
 
       clearCart();
-      navigate("/order-details");
+
+      navigate("/orders", {
+        state: {
+          order: response.order,
+  },
+});
     } catch (error) {
       alert(error.response?.data?.message || "Unable to place order right now.");
     }
