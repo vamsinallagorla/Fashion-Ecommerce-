@@ -1,51 +1,87 @@
-*{
-    margin:0;
-    padding:0;
-    box-sizing: border-box;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.register-page{
-    min-height: 100vh;
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(135deg, #1f2937, #111827);
+.register-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(180deg, #f2f6ff 0%, #eef3ff 100%);
+  padding: 32px;
 }
 
-.register-form{
-    width:420px;
-    background: white;
-    padding: 40px;
-    border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+.register-card {
+  width: min(520px, 100%);
+  background: #ffffff;
+  border-radius: 28px;
+  padding: 2.5rem;
+  box-shadow: 0 30px 80px rgba(21, 30, 67, 0.12);
+  border: 1px solid rgba(81, 101, 184, 0.12);
 }
 
-.register-form h2{
-    text-align:center;
-    margin-bottom:25px;
-    color:#222;
+.register-form {
+  display: grid;
+  gap: 1rem;
 }
 
-.register-form input{
-    width:100%;
-    padding: 14px;
-    margin-bottom: 18px;
-    border:1px solid #ccc;
-    border-radius:8px;
-    font-size:16px;
+.register-form h2 {
+  font-size: 2rem;
+  color: #10213d;
+  margin-bottom: 0.25rem;
 }
 
-.register-form button{
-    width: 100px;
-    padding: 14px;
-    border:none;
-    border-radius: 8px;
-    background: #ff6b35;
-    color:white;
-    font-size:18px;
-    cursor: pointer;
+.register-form .form-subtitle {
+  color: #5f6f8a;
+  margin-bottom: 1rem;
 }
 
-.register-form button:hover{
-    background: #e85b2b;
+.register-form .error-text {
+  color: #da4453;
+  background: #ffe6ea;
+  border: 1px solid #f5c0c8;
+  border-radius: 12px;
+  padding: 0.85rem 1rem;
+}
+
+.register-form input {
+  width: 100%;
+  padding: 1rem 1.1rem;
+  border-radius: 16px;
+  border: 1px solid #dce3f1;
+  background: #f7f9ff;
+  font-size: 1rem;
+  color: #1c2641;
+}
+
+.register-form input:focus {
+  outline: none;
+  border-color: #5a7aff;
+  box-shadow: 0 0 0 4px rgba(90, 122, 255, 0.12);
+}
+
+.register-form button {
+  width: 100%;
+  padding: 1rem;
+  border: none;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #4f7dff 0%, #2d57ff 100%);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.register-form button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 28px rgba(59, 100, 255, 0.18);
+}
+
+.register-form .small-text {
+  color: #6e7b95;
+  text-align: center;
+  font-size: 0.95rem;
 }

@@ -1,9 +1,11 @@
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { CartContext } from "../../context/CartContext";
 import "./ProductDetails.css";
 
 const ProductDetails = ({ product }) => {
   const { addToCart } = useContext(CartContext);
+  const navigate = useNavigate();
 
   if (!product) {
     return <h2>Product not found</h2>;
@@ -11,7 +13,7 @@ const ProductDetails = ({ product }) => {
 
   const handleAddToCart = () => {
     addToCart(product);
-    alert(`${product.name} added to cart successfully!`);
+    navigate("/cart");
   };
 
   return (

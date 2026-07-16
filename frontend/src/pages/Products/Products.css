@@ -15,3 +15,52 @@
     gap: 20px;
     justify-content: center;
 }
+
+.product-filters{
+    display:flex;
+    gap:12px;
+    justify-content:center;
+    flex-wrap:wrap;
+    margin-bottom:24px;
+}
+
+.filter-pill{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:10px 18px 10px 56px;
+    border-radius:999px;
+    color:#fff;
+    text-decoration:none;
+    font-weight:600;
+    background:#555;
+    background-size:cover;
+    background-position:center;
+    box-shadow:0 2px 6px rgba(0,0,0,0.12);
+    transition:transform .12s ease, box-shadow .12s ease, opacity .12s ease;
+}
+
+.filter-pill:hover{
+    transform:translateY(-3px);
+}
+
+.filter-pill.active{
+    outline:3px solid rgba(255,255,255,0.18);
+}
+
+.filter-pill .pill-label{
+    position:relative;
+    z-index:2;
+}
+
+/* category backgrounds */
+.filter-pill.men-fashion{ background-image: url('../../assets/images/tshirt.jpg'); }
+.filter-pill.women-fashion{ background-image: url('https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=700'); }
+.filter-pill.accessories{ background-image: url('../../assets/images/bag.jpg'); }
+.filter-pill.grooming{ background-image: url('https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=700'); }
+.filter-pill.footwear{ background-image: url('../../assets/images/shoes.jpg'); }
+
+@media(max-width:768px){
+    .products{ padding:20px; }
+    .filter-pill{ padding-left:46px; font-size:14px }
+}

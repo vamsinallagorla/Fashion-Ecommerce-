@@ -1,10 +1,11 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CartContext } from "../../context/CartContext";
 import "./OrderSummary.css";
 
 const OrderSummary = () => {
   const { cartItems, totalPrice, clearCart } = useContext(CartContext);
+  const [paymentMethod, setPaymentMethod] = useState("card");
 
   const navigate = useNavigate();
 
@@ -14,7 +15,7 @@ const OrderSummary = () => {
   );
 
   const placeOrder = () => {
-    alert("🎉 Order Placed Successfully!");
+    alert(`🎉 Order Placed Successfully!\nPayment: ${paymentMethod === "card" ? "Credit/Debit Card" : paymentMethod === "upi" ? "UPI" : "Cash on Delivery"}`);
 
     clearCart();
 
@@ -98,7 +99,41 @@ const OrderSummary = () => {
 
           <span>FREE</span>
         </div>
-
+        <div className="payment-section">
+          <h3>Payment Method</h3>
+          <div className="payment-options">
+            <label>
+              <input
+                type="radio"
+                name="payment"
+                value="card"
+                checked={paymentMethod === "card"}
+                onChange={() => setPaymentMethod("card")}
+              />
+              Credit / Debit Card
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="payment"
+                value="upi"
+                checked={paymentMethod === "upi"}
+                onChange={() => setPaymentMethod("upi")}
+              />
+              UPI
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="payment"
+                value="cod"
+                checked={paymentMethod === "cod"}
+                onChange={() => setPaymentMethod("cod")}
+              />
+              Cash on Delivery
+            </label>
+          </div>
+        </div>
         <div className="summary-total">
           <span>Grand Total</span>
 

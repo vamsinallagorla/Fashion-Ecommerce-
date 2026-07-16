@@ -23,6 +23,10 @@ const CartItem = ({
           ₹ {item.price}
         </p>
 
+        {item.description && (
+          <p className="cart-description">{item.description}</p>
+        )}
+
         <div className="quantity-box">
           <button onClick={() => decreaseQuantity(item.id)}>
             -

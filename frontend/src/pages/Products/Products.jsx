@@ -1,15 +1,51 @@
+import { Link, useLocation } from "react-router-dom";
 import "./Products.css";
 import ProductCard from "../../components/ProductCard/ProductCard";
 import products from "../../data/products";
 
 function Products() {
+    const location = useLocation();
+    const query = new URLSearchParams(location.search);
+    const selectedCategory = query.get("category") || "All";
+
+    const productCategories = [
+        "All",
+        ...Array.from(new Set(products.map((product) => product.category))),
+    ];
+
+    const filteredProducts =
+        selectedCategory === "All"
+            ? products
+            : products.filter((product) => product.category === selectedCategory);
+
     return(
         <div className="products">
             <h1>Our Products</h1>
+
+            <div className="product-filters">
+                {productCategories.map((category) => {
+                    const categoryClass = category.toLowerCase().replace(/\s+/g, "-");
+                    return (
+                        <Link
+                            key={category}
+                            to={
+                                category === "All"
+                                    ? "/products"
+                                    : `/products?category=${encodeURIComponent(category)}`
+                            }
+                            className={`filter-pill ${categoryClass} ${category === selectedCategory ? "active" : ""}`}
+                        >
+                            <span className="pill-label">{category}</span>
+                        </Link>
+                    );
+                })}
+            </div>
+
             <div className="product-grid">
-                {products.map((product) => (
+                {filteredProducts.map((product) => (
                     <ProductCard
                         key={product.id}
+                        id={product.id}
                         name={product.name}
                         price={product.price}
                         category={product.category}
