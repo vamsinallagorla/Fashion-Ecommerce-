@@ -10,16 +10,39 @@ function Register() {
     const [error, setError] = useState("");
     const navigate = useNavigate();
 
-    const handleRegister = (e) => {
-        e.preventDefault();
-        if (password !== confirmPassword) {
-            setError("Passwords do not match. Please try again.");
-            return;
-        }
+    const handleRegister = async (e) => {
+    e.preventDefault();
 
-        setError("");
-        navigate("/login");
-    };
+    if (password !== confirmPassword) {
+        setError("Passwords do not match");
+        return;
+    }
+
+    try {
+        const response = await fetch("http://localhost:5000/api/auth/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                name,
+                email,
+                password,
+            }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            alert("Registration Successful");
+            navigate("/login");
+        } else {
+            setError(data.message);
+        }
+    } catch (err) {
+        setError("Server Error");
+    }
+};
 
     return (
         <div className="register-page">
