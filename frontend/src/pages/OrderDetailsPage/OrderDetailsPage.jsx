@@ -42,35 +42,83 @@ const OrderDetailsPage = () => {
             </div>
           ) : (
             <>
+                <div className="success-box">
+
+                  <h1>✅ Order Placed Successfully</h1>
+
+                </div>
               <div className="details-grid">
                 <section className="details-section">
-                  <h2>Delivery details</h2>
-                  <p><strong>Name:</strong> {order.customer?.name || "-"}</p>
-                  <p><strong>Mobile:</strong> {order.customer?.mobile || "-"}</p>
-                  <p><strong>Address:</strong> {order.customer?.address || "-"}</p>
-                </section>
+                    <h2>Customer Details</h2>
+
+                    <p><strong>Order ID :</strong> {order._id || order.id}</p>
+
+                    <p><strong>Customer Name :</strong> {order.name}</p>
+
+                    <p><strong>Mobile Number :</strong> {order.mobile}</p>
+
+                    <p><strong>Delivery Address :</strong> {order.address}</p>
+
+                    <p><strong>Order Status :</strong> {order.status}</p>
+                  </section>
 
                 <section className="details-section">
-                  <h2>Payment</h2>
-                  <p><strong>Method:</strong> {order.paymentMethod || "-"}</p>
-                  <p><strong>Total:</strong> ₹ {order.totalPrice || 0}</p>
-                  <p><strong>Placed on:</strong> {order.placedAt ? new Date(order.placedAt).toLocaleString() : "-"}</p>
-                </section>
+
+                    <h2>Order Summary</h2>
+
+                    <p>
+                      <strong>Total Amount :</strong>
+                      ₹ {order.totalAmount}
+                    </p>
+
+                    <p>
+                      <strong>Date :</strong>
+                      {new Date(order.createdAt || order.placedAt).toLocaleString()}
+                    </p>
+
+                  </section>
               </div>
 
               <section className="details-section">
                 <h2>Items</h2>
                 <ul className="item-list">
-                  {(order.items || []).map((item, index) => (
-                    <li key={`${item.id || item.name}-${index}`}>
-                      <span>{item.name}</span>
-                      <span>₹ {item.price * item.quantity}</span>
+                  {(order.products || []).map((item, index) => (
+                    <li key={index}>
+
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        width="70"
+                        height="70"
+                      />
+
+                      <div>
+
+                        <h4>{item.name}</h4>
+
+                        <p>Category : {item.category}</p>
+
+                        <p>Price : ₹ {item.price}</p>
+
+                        <p>Quantity : {item.quantity}</p>
+
+                      </div>
+
                     </li>
                   ))}
                 </ul>
               </section>
             </>
           )}
+        </div>
+        <div className="continue-btn">
+
+          <button
+            onClick={() => navigate("/")}
+          >
+            Continue Shopping
+          </button>
+
         </div>
       </main>
       <Footer />
