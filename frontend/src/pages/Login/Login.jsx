@@ -26,6 +26,8 @@ function Login() {
         }
 
         setError("");
+        alert("Login Successful!");
+
         const redirectTo = location.state?.from || "/";
         navigate(redirectTo);
     };

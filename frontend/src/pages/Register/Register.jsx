@@ -27,6 +27,7 @@ function Register() {
             setError(result.message);
             return;
         }
+        alert("Registration Successful!");
 
         navigate("/");
     };
