@@ -1,7 +1,8 @@
 const jwt = require("jsonwebtoken");
 
 const authMiddleware = (req, res, next) => {
-    const token = req.header("Authorization");
+    const authHeader = req.header("Authorization");
+    const token = authHeader?.startsWith("Bearer ") ? authHeader.slice(7) : authHeader;
 
     if (!token) {
         return res.status(401).json({
@@ -10,7 +11,7 @@ const authMiddleware = (req, res, next) => {
     }
 
     try {
-        const verified = jwt.verify(token, process.env.JWT_SECRET);
+        const verified = jwt.verify(token, process.env.JWT_SECRET || "fashion-secret");
 
         req.user = verified;
 

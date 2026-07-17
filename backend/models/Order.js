@@ -17,8 +17,7 @@ const orderSchema = new mongoose.Schema({
     },
 
     user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
+        type: String,
         required: true
     },
 
@@ -45,7 +44,17 @@ const orderSchema = new mongoose.Schema({
 
     status: {
         type: String,
-        default: "Pending"
+        default: "Success"
+    },
+
+    cancellationReason: {
+        type: String,
+        default: ""
+    },
+
+    canceledAt: {
+        type: Date,
+        default: null
     }
 
 }, {

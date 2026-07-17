@@ -1,9 +1,11 @@
 import "./Navbar.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
 function Navbar(){
-    const{ isLoggedIn, logout} = useAuth();
+    const { isLoggedIn, logout } = useAuth();
+    const navigate = useNavigate();
+
     return (
         <nav className="navbar">
             <div className="logo">
@@ -11,9 +13,17 @@ function Navbar(){
             </div>
 
             <ul className="nav-links">
-                <li><Link to="/">Home</Link></li>
+                <li>
+                    <button type="button" className="nav-link-btn" onClick={() => navigate("/")}>
+                        Home
+                    </button>
+                </li>
+                <li>
+                    <button type="button" className="nav-link-btn" onClick={() => navigate(-1)}>
+                        Previous
+                    </button>
+                </li>
                 <li><Link to="/products">Products</Link></li>
-                
                 <li><Link to="/cart">Cart</Link></li>
                 {isLoggedIn && (
                     <li><Link to="/orders">My Orders</Link></li>

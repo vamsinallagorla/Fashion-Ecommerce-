@@ -1,6 +1,7 @@
 import "./Register.css";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 function Register() {
     const [name, setName] = useState("");
@@ -10,6 +11,7 @@ function Register() {
     const [error, setError] = useState("");
 
     const navigate = useNavigate();
+    const { register } = useAuth();
 
     const handleRegister = async (e) => {
         e.preventDefault();
@@ -19,30 +21,14 @@ function Register() {
             return;
         }
 
-        try {
-            const response = await fetch("http://localhost:5000/api/auth/register", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    name,
-                    email,
-                    password,
-                }),
-            });
+        const result = await register(name, email, password);
 
-            const data = await response.json();
-
-            if (response.ok) {
-                alert("Registration Successful");
-                navigate("/login");
-            } else {
-                setError(data.message);
-            }
-        } catch (err) {
-            setError("Server Error");
+        if (!result.success) {
+            setError(result.message);
+            return;
         }
+
+        navigate("/");
     };
 
     return (

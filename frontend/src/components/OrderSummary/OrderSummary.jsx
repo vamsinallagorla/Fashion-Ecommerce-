@@ -98,11 +98,11 @@ const OrderSummary = () => {
         // ignore storage issues and continue to the confirmation screen
       }
 
-      
+      window.dispatchEvent(new Event("orders:updated"));
 
       clearCart();
 
-      navigate("/order-details" );
+      navigate("/order-details");
 
     } catch (error) {
       alert(error.response?.data?.message || "Unable to place order right now.");
