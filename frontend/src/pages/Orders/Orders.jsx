@@ -26,6 +26,9 @@ function Orders() {
     "Other",
   ];
 
+  const getOrderIdentifier = (order) => order?._id ?? order?.id ?? null;
+  const normalizeOrderStatus = (status) => (status || "").toString().toLowerCase();
+
   const openCancelModal = (orderId) => {
     setActiveOrderId(orderId);
     setSelectedReason("");
@@ -59,15 +62,27 @@ function Orders() {
     try {
       const response = await cancelOrder(activeOrderId, reason);
       const updatedOrder = response.order || response;
+      const targetOrderId = getOrderIdentifier(updatedOrder) || activeOrderId;
 
       setOrders((previousOrders) =>
-        previousOrders.map((order) =>
-          order._id === activeOrderId
-            ? { ...order, ...updatedOrder, status: updatedOrder.status || "Canceled" }
-            : order
-        )
+        previousOrders.map((order) => {
+          const currentOrderId = getOrderIdentifier(order);
+
+          if (String(currentOrderId) === String(activeOrderId)) {
+            return {
+              ...order,
+              ...updatedOrder,
+              _id: targetOrderId,
+              id: updatedOrder.id || order.id || targetOrderId,
+              status: updatedOrder.status || "Canceled",
+            };
+          }
+
+          return order;
+        })
       );
 
+      window.dispatchEvent(new Event("orders:updated"));
       setNotice("Your order has been canceled.");
       setError("");
       closeCancelModal();
@@ -177,11 +192,11 @@ function Orders() {
                     </div>
                   </div>
 
-                  {((order.status || "").toLowerCase() === "success" || (order.status || "").toLowerCase() === "pending") && (
+                  {!["canceled", "delivered"].includes(normalizeOrderStatus(order.status)) && (
                     <button
                       type="button"
                       className="cancel-order-btn"
-                      onClick={() => openCancelModal(order._id)}
+                      onClick={() => openCancelModal(getOrderIdentifier(order))}
                     >
                       Cancel Order
                     </button>
