@@ -1,4 +1,3 @@
-import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
 import OrderSummary from "../../components/OrderSummary/OrderSummary";
 
@@ -7,8 +6,6 @@ import "./OrderSummaryPage.css";
 const OrderSummaryPage = () => {
   return (
     <>
-      <Navbar />
-
       <main className="order-summary-page">
         <div className="order-summary-container">
           <div className="page-header">

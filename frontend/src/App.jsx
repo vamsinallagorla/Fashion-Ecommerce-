@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+import Navbar from "./components/Navbar/Navbar";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
@@ -13,6 +14,7 @@ import Orders from "./pages/Orders/Orders";
 function App() {
   return (
     <BrowserRouter>
+      <Navbar />
       <Routes>
         {/* Member 2 Pages */}
         <Route path="/" element={<Home />} />

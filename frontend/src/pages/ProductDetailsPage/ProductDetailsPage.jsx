@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
 import ProductDetails from "../../components/ProductDetails/ProductDetails";
 import products from "../../data/products";
@@ -20,8 +19,6 @@ const ProductDetailsPage = () => {
 
   return (
     <>
-      <Navbar />
-
       <main className="product-page">
         <div className="product-container">
           {product ? <ProductDetails product={product} /> : <h2>Product not found</h2>}
