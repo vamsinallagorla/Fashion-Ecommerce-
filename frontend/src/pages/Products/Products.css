@@ -82,6 +82,7 @@
     .products{ padding:20px; }
     .filter-pill{ padding-left:46px; font-size:14px }
 }
+<<<<<<< HEAD
 
 /* Products Top Navigation */
 
@@ -107,4 +108,35 @@
 
 .nav-btn:hover {
   background: #2563eb;
+=======
+.products-container{
+
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:20px;
+
+}
+
+
+@media(max-width:992px){
+
+.products-container{
+
+grid-template-columns:repeat(2,1fr);
+
+}
+
+}
+
+
+
+@media(max-width:600px){
+
+.products-container{
+
+grid-template-columns:1fr;
+
+}
+
+>>>>>>> 3d214dc7c3c69d2d03422d2f1b5c5dc871d31362
 }

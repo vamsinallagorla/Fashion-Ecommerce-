@@ -93,3 +93,36 @@
 .order-btn:hover{
     background-color: #e85a2b;
 }
+@media(max-width:600px){
+
+
+.card{
+
+width:100%;
+
+}
+
+
+.card img{
+
+height:250px;
+object-fit:cover;
+
+}
+
+
+.button-group{
+
+flex-direction:column;
+
+}
+
+
+.button-group button{
+
+width:100%;
+
+}
+
+
+}

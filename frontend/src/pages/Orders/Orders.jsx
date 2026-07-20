@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
 import { useAuth } from "../../context/AuthContext";
 import { cancelOrder, getOrders } from "../../services/api";
@@ -126,8 +125,6 @@ function Orders() {
 
   return (
     <>
-      <Navbar />
-
       <main className="orders-page">
         <div className="orders-card">
           <div className="orders-header">

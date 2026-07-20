@@ -35,3 +35,27 @@
 .hero-content button:hover{
     background: #e85a2a;
 }
+@media(max-width:768px){
+
+.hero{
+    flex-direction:column;
+    text-align:center;
+    padding:20px;
+}
+
+
+.hero h1{
+    font-size:30px;
+}
+
+
+.hero p{
+    font-size:16px;
+}
+
+
+.hero img{
+    width:100%;
+}
+
+}
