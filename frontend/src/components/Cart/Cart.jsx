@@ -1,10 +1,12 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CartContext } from "../../context/CartContext";
-import CartItem from "./CartItem";
 import "./Cart.css";
+import CartItem from "./CartItem";
 
 const Cart = () => {
+  const navigate = useNavigate();
+
   const {
     cartItems,
     removeFromCart,
@@ -13,13 +15,25 @@ const Cart = () => {
     totalPrice,
   } = useContext(CartContext);
 
-  // Calculate total quantity
   const totalItems = cartItems.reduce(
     (total, item) => total + item.quantity,
     0
   );
 
-  // Empty Cart
+  const handleCheckout = () => {
+    const token = localStorage.getItem("fashion-auth-token");
+
+    if (token) {
+      navigate("/summary");
+    } else {
+      navigate("/login", {
+        state: {
+          from: "/summary",
+        },
+      });
+    }
+  };
+
   if (cartItems.length === 0) {
     return (
       <div className="cart-container">
@@ -41,12 +55,9 @@ const Cart = () => {
 
   return (
     <div className="cart-container">
-
       <h1 className="cart-title">
         Shopping Cart
       </h1>
-
-      {/* Cart Items */}
 
       {cartItems.map((item) => (
         <CartItem
@@ -58,10 +69,7 @@ const Cart = () => {
         />
       ))}
 
-      {/* Order Summary */}
-
       <div className="cart-summary">
-
         <h2>Order Summary</h2>
 
         <div className="summary-row">
@@ -86,14 +94,13 @@ const Cart = () => {
           <span>₹ {totalPrice}</span>
         </div>
 
-        <Link to="/summary">
-          <button className="checkout-btn">
-            Proceed to Checkout
-          </button>
-        </Link>
-
+        <button
+          className="checkout-btn"
+          onClick={handleCheckout}
+        >
+          Proceed to Checkout
+        </button>
       </div>
-
     </div>
   );
 };

@@ -82,3 +82,29 @@
     .products{ padding:20px; }
     .filter-pill{ padding-left:46px; font-size:14px }
 }
+
+/* Products Top Navigation */
+
+.products-navbar {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.nav-btn {
+  background: #111827;
+  color: white;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.nav-btn:hover {
+  background: #2563eb;
+}

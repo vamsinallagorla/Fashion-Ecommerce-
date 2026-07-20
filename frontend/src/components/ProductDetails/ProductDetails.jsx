@@ -1,12 +1,10 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { CartContext } from "../../context/CartContext";
-import { useAuth } from "../../context/AuthContext";
 import "./ProductDetails.css";
 
 const ProductDetails = ({ product }) => {
   const { addToCart } = useContext(CartContext);
-  const { isLoggedIn } = useAuth();
   const navigate = useNavigate();
 
   if (!product) {
@@ -14,12 +12,10 @@ const ProductDetails = ({ product }) => {
   }
 
   const handleAddToCart = () => {
-    if (!isLoggedIn) {
-      navigate("/login", { state: { from: "/cart" } });
-      return;
-    }
-
+    // Allow guest users to add products to cart
     addToCart(product);
+
+    // Redirect to cart page
     navigate("/cart");
   };
 
@@ -37,9 +33,7 @@ const ProductDetails = ({ product }) => {
           <span> {product.category}</span>
         </p>
 
-        <h2 className="price">
-          ₹ {product.price}
-        </h2>
+        <h2 className="price">₹ {product.price}</h2>
 
         <p className="description">
           {product.description}
