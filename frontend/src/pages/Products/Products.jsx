@@ -1,14 +1,45 @@
+import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import "./Products.css";
 import ProductCard from "../../components/ProductCard/ProductCard";
-import products from "../../data/products";
+import { getAllProducts } from "../../services/api";
+import "./Products.css";
 
 function Products() {
+   const [products, setProducts] = useState([]);
+
+  
+
+  useEffect(() => {
+
+    const fetchProducts = async () => {
+
+      try {
+
+        const data = await getAllProducts();
+
+        console.log("MongoDB Products:", data);
+
+        setProducts(data);
+
+      } catch(error) {
+
+        console.log("Error fetching products:", error);
+
+      }
+
+    };
+
+
+    fetchProducts();
+
+  }, []);
+  
   const location = useLocation();
   const navigate = useNavigate();
 
   const query = new URLSearchParams(location.search);
   const selectedCategory = query.get("category") || "All";
+  
 
   const productCategories = [
     "All",

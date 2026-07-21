@@ -23,11 +23,17 @@ export const registerUser = async (name, identifier, password) => {
   return response.data;
 };
 
+
 export const loginUser = async (identifier, password) => {
   const response = await api.post("/auth/login", {
     email: identifier,
     password,
   });
+  return response.data;
+};
+// Get All Products
+export const getAllProducts = async () => {
+  const response = await api.get("/products");
   return response.data;
 };
 
