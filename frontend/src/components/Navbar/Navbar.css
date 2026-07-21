@@ -54,7 +54,7 @@
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
     flex-direction: column;
     align-items: flex-start;
-    min-width: 180px;
+    min-width: 220px;
     gap: 6px;
 }
 
@@ -64,6 +64,7 @@
 
 .nav-link-btn,
 .logout-btn{
+    width: 100%;
     color: white;
     text-decoration: none;
     font-size: 16px;
@@ -71,7 +72,7 @@
     background: transparent;
     border: none;
     cursor: pointer;
-    padding: 8px 0;
+    padding: 10px 0;
     text-align: left;
     font: inherit;
 }
@@ -83,9 +84,11 @@
 
 .logout-btn{
     background: #ff6b35;
+    color: white;
     padding: 10px 16px;
     border-radius: 5px;
-    margin-top: 4px;
+    margin-top: 10px;
+    text-align: center;
 }
 
 .logout-btn:hover{
@@ -93,17 +96,80 @@
     color: white;
 }
 
-@media (max-width: 768px) {
-    .navbar {
+/* ===========================
+   USER PROFILE
+=========================== */
+
+.user-profile{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #333;
+}
+
+.user-avatar{
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: #f39c12;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.user-details{
+    flex: 1;
+}
+
+.user-details h4{
+    color: white;
+    font-size: 16px;
+    margin-bottom: 4px;
+}
+
+.user-details p{
+    color: #bbb;
+    font-size: 13px;
+    word-break: break-word;
+}
+
+/* ===========================
+   MOBILE
+=========================== */
+
+@media (max-width: 768px){
+
+    .navbar{
         padding: 16px 20px;
     }
 
-    .nav-links {
+    .nav-links{
         left: 20px;
         top: 66px;
+        min-width: 220px;
     }
 
-    .logo a {
+    .logo a{
         font-size: 24px;
+    }
+
+    .user-profile{
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .user-details h4{
+        font-size: 15px;
+    }
+
+    .user-details p{
+        font-size: 12px;
     }
 }
