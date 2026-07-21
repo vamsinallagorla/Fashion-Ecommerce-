@@ -249,7 +249,7 @@ const OrderSummary = () => {
                   checked={paymentMethod === "upi"}
                   onChange={() => setPaymentMethod("upi")}
                 />
-                UPI
+              UPI
               </label>
               <label>
                 <input

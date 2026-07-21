@@ -1,47 +1,71 @@
+import { useState } from "react";
 import "./Navbar.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
-function Navbar(){
+function Navbar() {
     const { isLoggedIn, logout } = useAuth();
     const navigate = useNavigate();
+    const [menuOpen, setMenuOpen] = useState(false);
+
+    const handleNavigate = (path) => {
+        navigate(path);
+        setMenuOpen(false);
+    };
+
+    const handleLogout = () => {
+        logout();
+        setMenuOpen(false);
+    };
 
     return (
         <nav className="navbar">
-            <div className="logo">
-                <Link to="/">Fashion Boutique</Link>
+            <div className="nav-start">
+                <button
+                    type="button"
+                    className="menu-toggle"
+                    onClick={() => setMenuOpen((prev) => !prev)}
+                    aria-label="Toggle navigation menu"
+                >
+                    ☰
+                </button>
+
+                <div className="logo">
+                    <Link to="/">Fashion Boutique</Link>
+                </div>
             </div>
 
-            <ul className="nav-links">
-                <li>
-                    <button type="button" className="nav-link-btn" onClick={() => navigate("/")}>
-                        Home
-                    </button>
-                </li>
-                <li>
-                    <button type="button" className="nav-link-btn" onClick={() => navigate(-1)}>
-                        Previous
-                    </button>
-                </li>
-                <li><Link to="/products">Products</Link></li>
-                <li><Link to="/cart">Cart</Link></li>
+            <div className={`nav-links ${menuOpen ? "open" : ""}`}>
+                <button type="button" className="nav-link-btn" onClick={() => handleNavigate("/")}>
+                    Home
+                </button>
+                <button type="button" className="nav-link-btn" onClick={() => handleNavigate("/products")}>
+                    Products
+                </button>
+                <button type="button" className="nav-link-btn" onClick={() => handleNavigate("/cart")}>
+                    Cart
+                </button>
                 {isLoggedIn && (
-                    <li><Link to="/orders">My Orders</Link></li>
+                    <button type="button" className="nav-link-btn" onClick={() => handleNavigate("/orders")}>
+                        My Orders
+                    </button>
                 )}
                 {!isLoggedIn && (
                     <>
-                        <li><Link to="/login">Login</Link></li>
-                        <li><Link to="/register">Register</Link></li>
+                        <button type="button" className="nav-link-btn" onClick={() => handleNavigate("/login")}>
+                            Login
+                        </button>
+                        <button type="button" className="nav-link-btn" onClick={() => handleNavigate("/register")}>
+                            Register
+                        </button>
                     </>
                 )}
                 {isLoggedIn && (
-                    <li>
-                        <button className="logout-btn" onClick={logout}>
-                            Logout
-                        </button>
-                    </li>
+                    <button type="button" className="logout-btn" onClick={handleLogout}>
+                        Logout
+                    </button>
                 )}
-            </ul>
+            </div>
         </nav>
     );
 }
