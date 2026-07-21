@@ -39,14 +39,14 @@ function Products() {
           className="nav-btn"
           onClick={() => navigate("/")}
         >
-          🏠 Home
+           Home
         </button>
 
         <button
           className="nav-btn"
           onClick={() => navigate("/cart")}
         >
-          🛒 Cart
+           Cart
         </button>
 
       </div>
@@ -82,8 +82,8 @@ function Products() {
       <div className="product-grid">
         {filteredProducts.map((product) => (
           <ProductCard
-            key={product.id}
-            id={product.id}
+            key={product._id}
+            id={product._id}
             name={product.name}
             price={product.price}
             category={product.category}
