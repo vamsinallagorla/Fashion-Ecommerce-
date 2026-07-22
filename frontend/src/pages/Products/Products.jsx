@@ -1,48 +1,9 @@
-import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import ProductCard from "../../components/ProductCard/ProductCard";
-import localProducts from "../../data/products";
-import { getAllProducts } from "../../services/api";
+import products from "../../data/products";
 import "./Products.css";
 
-
 function Products() {
-  
-   const [products, setProducts] = useState([]);
-  
-
-  useEffect(() => {
-
-  const fetchProducts = async () => {
-
-    try {
-
-      const data = await getAllProducts();
-
-      console.log("MongoDB Products:", data);
-
-      const allProducts = [
-        ...localProducts,
-        ...data
-      ];
-
-      setProducts(allProducts);
-
-    } catch(error) {
-
-      console.log("Error fetching products:", error);
-
-      // If database fails, show local products
-      setProducts(localProducts);
-
-    }
-
-  };
-
-  fetchProducts();
-
-}, []);
-  
   
   const location = useLocation();
   const navigate = useNavigate();
@@ -125,8 +86,8 @@ function Products() {
   {filteredProducts.map((product) => (
 
     <ProductCard
-      key={product._id || product.id}
-      id={product._id || product.id}
+      key={ product.id}
+      id={ product.id}
       name={product.name}
       price={product.price}
       category={product.category}
