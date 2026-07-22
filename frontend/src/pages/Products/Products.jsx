@@ -1,38 +1,48 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import ProductCard from "../../components/ProductCard/ProductCard";
+import localProducts from "../../data/products";
 import { getAllProducts } from "../../services/api";
 import "./Products.css";
 
-function Products() {
-   const [products, setProducts] = useState([]);
 
+function Products() {
+  
+   const [products, setProducts] = useState([]);
   
 
   useEffect(() => {
 
-    const fetchProducts = async () => {
+  const fetchProducts = async () => {
 
-      try {
+    try {
 
-        const data = await getAllProducts();
+      const data = await getAllProducts();
 
-        console.log("MongoDB Products:", data);
+      console.log("MongoDB Products:", data);
 
-        setProducts(data);
+      const allProducts = [
+        ...localProducts,
+        ...data
+      ];
 
-      } catch(error) {
+      setProducts(allProducts);
 
-        console.log("Error fetching products:", error);
+    } catch(error) {
 
-      }
+      console.log("Error fetching products:", error);
 
-    };
+      // If database fails, show local products
+      setProducts(localProducts);
 
+    }
 
-    fetchProducts();
+  };
 
-  }, []);
+  fetchProducts();
+
+}, []);
+  
   
   const location = useLocation();
   const navigate = useNavigate();
@@ -111,18 +121,22 @@ function Products() {
       </div>
 
       <div className="product-grid">
-        {filteredProducts.map((product) => (
-          <ProductCard
-            key={product._id}
-            id={product._id}
-            name={product.name}
-            price={product.price}
-            category={product.category}
-            image={product.image}
-            description={product.description}
-          />
-        ))}
-      </div>
+
+  {filteredProducts.map((product) => (
+
+    <ProductCard
+      key={product._id || product.id}
+      id={product._id || product.id}
+      name={product.name}
+      price={product.price}
+      category={product.category}
+      image={product.image}
+      description={product.description}
+    />
+
+  ))}
+
+</div>
 
     </div>
   );
